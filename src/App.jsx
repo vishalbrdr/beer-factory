@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { useEffect } from "react";
 import Card from "./components/Card";
@@ -16,12 +16,14 @@ function App() {
     }
     fetchData();
   }, []);
+  
+  const filteredBeers = useMemo(() => {
+    beerData.filter((beer) => {
+      return beer.name.toLowerCase().includes(query);
+    });
+  }, [query, beerData]);
 
   if (!beerData) return <Loading />;
-
-  const filteredBeers = beerData.filter((beer) => {
-    return beer.name.toLowerCase().includes(query);
-  });
 
   return (
     <main className="bg-amber-600 min-h-screen">
